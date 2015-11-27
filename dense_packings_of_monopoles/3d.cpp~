@@ -1,0 +1,38 @@
+#include <iostream>
+#include <cmath>
+#include <vector>
+
+using namespace std;
+
+vector<int> table;
+int twodb(int n) {
+    if(table[n] != -1)
+        return table[n];
+    table[n] = 2*n - ceil(2*sqrt(n)); //floor(2*n - 2*sqrt(n));
+    return table[n];
+}
+
+vector<vector<int> > dp;
+
+int main(int argc, char **argv) {
+    table.resize(1024*1024,-1);
+
+    dp.push_back(vector<int>());
+    for(int n = 1; n< 500; n++) {
+        dp.push_back(vector<int>());
+        dp[n].push_back(0);
+        for(int k = 1; k <= n; k++) {
+            int quantity = 0;
+            for(int i = 1; i <= n-k; i++)
+                quantity = max(quantity, dp[n-k][i] + min(i,k));
+            
+            dp[n].push_back(twodb(k) + quantity);
+        }
+
+        int answer = 0;
+        for(int j = 1; j <= n; j++)
+            answer = max(answer, dp[n][j]);
+        cout << n << " " << answer << "\n";
+    }
+    return 0;
+}

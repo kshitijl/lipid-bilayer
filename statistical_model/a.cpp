@@ -1,0 +1,62 @@
+#include <iostream>
+#include <vector>
+#include <cstdio>
+#include <cmath>
+
+using namespace std;
+
+int bit_at(int config, int offset) {
+    return ((config & (1 << offset)) >> offset);
+}
+
+double mean_energy_unnorm(vector<unsigned long>degeneracy, double beta)
+{
+    double E = 0.0;
+    for(unsigned long energy = 0; energy < degeneracy.size(); energy++)
+        E += degeneracy[energy]*exp(beta*energy)*energy;
+    return E;
+}
+
+double partition_function(vector<unsigned long>degeneracy, double beta)
+{
+    double Q = 0.0;
+    for(unsigned long energy = 0; energy < degeneracy.size(); energy++)
+        Q += degeneracy[energy]*exp(beta*energy);
+    return Q;
+}
+
+int main(int argc, char **argv) {
+    int n, bigN;
+    cin >> n;
+    bigN = 1 << (2*n);
+
+    vector<unsigned long> degeneracy(3*n-1);
+
+    for(unsigned long config = 0; config < bigN; config++) {
+        int score = 0;
+        for(int offset = 0; offset < n-1; offset++) {
+            score += bit_at(config, offset)*bit_at(config, offset+1);
+            score += bit_at(config, offset+n)*bit_at(config, offset+n+1);
+            score += bit_at(config, offset)*bit_at(config, offset+n);
+        }
+        score += bit_at(config, n-1)*bit_at(config, n+n-1);
+        degeneracy[score]++;
+    }
+
+    cout << "Energy\tDegeneracy\n";
+    for(int i = 0; i < 3*n-1; i++)
+        cout << -i << " & " << degeneracy[i] << "\\\\\n";
+    cout << endl;
+/*
+    for(double T=0; T < 10; T+= 0.1) {
+        double beta = 1.0/T;
+        double Q = partition_function(degeneracy, beta);
+        //double men = mean_energy_unnorm(degeneracy, beta);
+        int min_index = 3*n-2;
+        double prob_min = degeneracy[min_index]*exp(beta*min_index);
+        cout << prob_min/Q << endl;
+    }
+*/
+    
+    return 0;
+}

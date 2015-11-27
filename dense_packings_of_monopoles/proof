@@ -1,0 +1,124 @@
+\documentclass[11pt]{amsart}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{A closed-form expression for the densest $n$-subgraph of $\mathbb{Z}^3$}
+\author{Kshitij Lauria}
+%\date{}                                           % Activate to display a given date or no date
+
+\makeatletter
+\newcommand\ackname{Acknowledgements}
+\if@titlepage
+  \newenvironment{acknowledgements}{%
+      \titlepage
+      \null\vfil
+      \@beginparpenalty\@lowpenalty
+      \begin{center}%
+        \bfseries \ackname
+        \@endparpenalty\@M
+      \end{center}}%
+     {\par\vfil\null\endtitlepage}
+\else
+  \newenvironment{acknowledgements}{%
+      \if@twocolumn
+        \section*{\abstractname}%
+      \else
+        \small
+        \begin{center}%
+          {\bfseries \ackname\vspace{-.5em}\vspace{\z@}}%
+        \end{center}%
+        \quotation
+      \fi}
+      {\if@twocolumn\else\endquotation\fi}
+\fi
+\makeatother
+
+\begin{document}
+  \cite{BergBiochemistry},
+%\section{}
+%\subsection{}
+
+\begin{abstract}
+We revisit dense $n$-subgraphs of $\mathbb{Z}^2$ and exhibit a sequence of optimal arrangements constructed by adding one point to the previous one. Using this sequence we develop an exact count of the maximum number of edges in an $n$-subgraph of $\mathbb{Z}^3$ expressed as a minimization problem on ordered partitions of $n$. We find a good upper bound, then give an exact formula.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+A natural question to ask given a $k$-dimensional grid $\mathbb{Z}^k$ is, what is the maximum number of edges joining $n=1,2,3,\dotsc$ points on the lattice? When $k$ is large (of the order of $\log{n}$) the maximal arrangement is on the hypercube and is well-studied. The continuous analogue to this problem has been studied in \cite{bollobas89}. The ``nesting property'' we exploit has a long history in solving problems of this type; see \cite{ahlswede94} for a detailed discussion of this issue. When $k=2$, an exact answer is known \cite{harary76}. For $k \geq 3$ however no general formula nor efficient computational procedure is known. In this article we give a formula for $k=3$, the sequence $1,2,4,5,7,9,12,13,15,17,20,\dotsc$ \cite{a007818}. The method employed may be generalized to higher dimensions to yield upper-bounds, a topic explored in future articles.
+
+\section{Densest shapes for $k=2$}
+Suppose $T = \{(x_1,y_1), (x_2, y_2), ..., (x_n, y_n)\}$ is some collection of $n$ points in the two dimensional square grid. Consider the $x$-coordinates of the points on an arbitrary line parallel to the $x$ axis, $T_y = \{x_i \forall (x_i,y) \in T\}$ for some particular fixed $y$. Two properties are of interest to us: the number of such points $m_y = |T_y|$, and their minimum and maximum values.
+
+The maximum number of common edges on this line parallel to the $x$ axis $m_y-1$, and for this maximum to occur $$\max(T_y) - \min(T_y) = m_y-1,$$ that is to say, all the points must be squished together. Let us count the maximum total number of common edges parallel to the $x$ axis, $\sum_{\text{distinct y}}{m_y-1}$. Since the sum of the number of points must be the total number of points, this reduces to $n - s$ where $s$ is the number of distinct values of the $y$-coordinate. 
+
+Similarly, the maximum number of common edges parallel to the $y$-axis is $n - t$ where $t$ is the number of distinct values of the $x$-coordinate. Together these account for all possible common edges, so an upper bound on this number is $$2n - s - t.$$
+
+Remember that this upper bound is an exact count of the number of common edges if and only if for every line cutting through the arrangement along either axis, all the points are squished together, that is, $\max(T_y) - \min(T_y) = m_y - 1$ for every $y$ and along both axes. Since there are no holes, there can be no empty lines either (an empty line is a hole in the other direction). Further, any arrangement of $n$ points that satisfies this no-holes condition and has the same values of $s$ and $t$ must have the same number of common edges.
+
+With $s$ and $t$ distinct values of the two coordinates there can be at most $st$ distinct points, so (Dijkstra would spin in his grave were I to call this an application of the pigeonhole principle) $$st \geq n.$$ Minimizing $s+t$ given this inequality and the condition that they both be integers bounds the number of common edges between $n$ points from above by $$2n - \lceil2\sqrt{n} \rceil.$$
+
+Now we describe a sequence of arrangements and claim that for every $n$, the $n^{th}$ arrangement in this sequence achieves this upper bound. This proves that the upper bound is tight. Moreover, since every arrangement in the sequence is constructed by adding one point to the previous, we know that for any two integers $a$ and $b$, if $a>b$ then there are optimal arrangements of $a$ and $b$ points such that every point in the latter is contained in the former. This fact will be crucial in our development of the densest shapes for $k=3$.
+
+Start with a point at the origin. Add points one row above the last filled row, then turn the corner and fill the column to the right of the last filled one. This gives larger and larger incomplete squares that grow upwards and to the right. It is well known that the number of contacts in this sequence is $2n - \lceil2\sqrt{n} \rceil$, but I will offer two arguments here because I find them intuitive and instructive. First, the bounding rectangle has the right values of $s$ and $t$ for the maximum (proof by picture: look at the two complementary sequences) and the arrangement inside satisfies the no-holes condition. Therefore, it must achieve this maximum.
+
+Another way is to count the number of edges added by each subsequent point. Except for the first point (which adds zero edges) each point adds either one or two edges. In fact the only points which add only one edge are: the first point added in a new row, and the last one added before turning the corner. There are two of these at each row except for the final, uppermost row, in which there may just be one if the corner hasn't been reached yet. Adding these up gives the required number.
+
+\section{Densest shapes for $k=3$} 
+
+The same idea allows us to develop a closed-form expression for the analogous problem in three dimensions. Let us divide an arbitrary configuration $T$ of $n$ points into the $m$ planes perpendicular to one of the three axis. We will represent this with a sequence of $m$ numbers $a_1,a_2,...a_m$, where $a_i$ is the number of points on plane $i$. Clearly $$\sum_{i=1}^{m}{a_i} = n,$$ so the $\{a_i\}$ form an ordered partition of $n$ into $m$ parts.
+
+We can count the maximum number of edges for a given ordered partition. In a plane with $a_i$ points there can be at most $2a_i - \lceil2\sqrt{a_i}\rceil$ edges within that plane. Between a pair of successive planes with $a_i$ and $a_{i+1}$ points respectively there can be at most $\min(a_i, a_{i+1})$ edges. Both of these maxima can be achieved simultaneously by always arranging points within a plane in the sequence from the last section. Then each plane will be at the maximum number of edges given the number of points in it, and since each smaller arrangement is a subset of every larger one, every possible connection between pairs of successive planes will be made. The largest number of common edges is given by maximizing the total count over all ordered partitions of $n$, 
+$$
+g_3(n) = \max\{\sum_{i=1}^{m}{\min(a_i, a_{i+1})} + \sum_{i=1}^{m}{2a_i - \lceil2\sqrt{a_i}\rceil}\}.
+$$ 
+
+We can learn many things by considering this expression. The first sum depends on the order while the second does not. Given a partition, what order maximizes the first sum? It is easy to see (by, for example, a switching argument) that they must be sorted. Without loss of generality, then, let's say $a_1$ is the largest of these numbers. If the sequence is sorted $min(a_i,a_{i+1}) = a_{i+1}$, so the first sum reduces to $n-a_1$ (remember $a_1$ is the largest $a_i$). The second sum can be broken into two parts, and since $\sum_{i=1}^{m}{a_i} = n$ the whole thing reduces to $$g_3(n) = 3n - \min\{a_1 + \sum_{i=1}^{m}{\lceil2\sqrt{a_i}\rceil}\},$$ where you must remember that $a_1$ is the largest of all $a_i$.
+
+With a little calculus and an application of the pigeonhole principle ($\max(a_i) \geq \text{avg}(a_i)$; Dijkstra would approve this time\cite{ewd980}) we can get a quick upper bound on the maximum number of edges $g_3(n)$, $$g_3(n) \leq 3n - \lceil3n^{2/3}\rceil.$$
+
+This bound can also be derived as a consequence of the Box Theorem of Bollobas \cite{geiremail}. While this is a rather tight upper bound and achieves the right value in many cases, we can solve the minimization problem exactly by relating $a_1$ to $s=\lfloor n^{1/3} \rfloor$. In the formula below $a_1$ has been renamed to $a$:
+$$s=\lfloor n^{1/3} \rfloor$$
+$$
+a = \left \{ \begin{array}{rcl} s^2 & \mbox{for} & n \leq s^2(s+1) \\
+                                      s(s+1) & \mbox{for} & s^s(s+1) < n \leq s(s+1)^2 \\
+                                      (s+1)^2  & \mbox{for} & s(s+1)^2 < n \end{array} \right.$$
+$$ g_3(n) = 3n - a - \lfloor n/a \rfloor \lceil 2 \sqrt{a} \rceil - \lceil2 \sqrt{n\text{ mod }a} \rceil.$$
+
+To my knowledge this is the first known closed-form expression for this quantity. I suspect it can be simplified substantially from this form.
+\vspace{10mm}
+\begin{acknowledgements}
+Sorin Istrail introduced me to a problem that got me interested in this one. I had many valuable conversations with Manu Lauria about programming solutions to the many combinatorial problems that came up in this research. Daniel Weinreich helped me develop an evolutionary algorithm. Carleton Coffrin gave me valuable hints about solving minimization problems. Vihang Mehta and Steven McGarty taught me not to forget about calculus, and listened to my ramblings with great patience. Geir Agnarsson wrote some papers I found very helpful in developing my ideas, pointed me to some other research, shared his insights and even emailed me an old paper I had trouble finding. Finally, Claire Mathieu was a wonderful help and gave me some key ideas in this paper. Peter Brass made valuable comments concerning the paper's organization and pointed me to some key research.
+\end{acknowledgements}
+
+\begin{thebibliography}{9}
+
+\bibitem{a007818}
+  Sequence A007818,
+  \emph{The On-Line Encyclopedia of Integer Sequences (OEIS)},
+  published electronically at \texttt{http://oeis.org/A007818}.
+  
+  \bibitem{harary76}
+   Frank Harary; Heiko Harborth: Extremal animals, \emph{J. Combinatorics Information Syst. Sci.,} 1, no. 1, 1-8, (1976).
+   
+   \bibitem{ewd980}
+    Dijkstra, Edsger W. \emph{The strange case of The Pigeon-hole Principle (EWD980)} E.W. Dijkstra Archive. Center for American History, University of Texas at Austin.
+    
+    \bibitem{geiremail}
+     Agnarsson, Geir. personal communication
+
+  \bibitem{bollobas89}
+   Bela Bollobas and Imre Leader: Edge-Isoperimetric Inequalities in the Grid, \emph{Combinatorica} 11 (4) (1991).
+   
+   \bibitem{ahlswede94}
+    R. Ahlswede and  S. L. Bezrukov: Edge Isoperimetric Theorems for Integer Point Arrays, \emph{Appl. Math. Lett.} Vol. 8, No. 2, pp. 75-80, (1995).
+\end{thebibliography}
+
+\end{document}  

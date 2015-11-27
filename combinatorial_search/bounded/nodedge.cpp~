@@ -1,0 +1,158 @@
+#include "bm.h"
+
+void DEdge::set_place(Node *x, int place) {
+    assert(x == a || x == b);
+    if(x == a)
+        aplace = place;
+    else
+        bplace = place;
+}
+
+int Node::add_active(DEdge *edge) {
+    active[n_active] = edge;
+    n_active++;
+    return n_active-1;
+}    
+
+void DEdge::activate() {
+    assert(!active);
+    active = true;
+
+    aplace = a->add_active(this);
+    bplace = b->add_active(this);
+}
+
+void Node::remove_active_at(int index) {
+    assert(index >= 0);
+    assert(index < n_active);
+    assert(n_active > 0);
+
+    // swap topmost active with this one
+    // remembering to update that edge's place
+    // its new one
+
+    active[index] = active[n_active-1];
+    active[index]->set_place(this, index);
+    n_active--;
+}
+
+void DEdge::deactivate() {
+    assert(active);
+    
+    active = false;
+    fcap = bcap = 0;
+
+    a->remove_active_at(aplace);
+    b->remove_active_at(bplace);
+
+    aplace = bplace = -1;
+}
+
+Node *Node::deactivate_active(bool x) {
+    Node *retval = NULL;
+
+    for(int it = 0; it < n_active; it++) {
+        DEdge *that_edge = active[it];
+        Node *nbr = that_edge->neighbor_of(this);
+        if(matched) {
+            if((x && that_edge->get_cap_from(this) != 0) ||
+               (!x && that_edge->get_cap_from(nbr) != 0)) {
+                matched = false;
+                nbr->matched = false;
+                if(x)
+                    retval = nbr;
+                else
+                    retval = this;
+            }
+        }
+        to_deactivate[it] = that_edge;
+    }
+
+    int how_many_to_deactivate = n_active;
+
+    for(int i = 0; i < how_many_to_deactivate; i++)
+        to_deactivate[i]->deactivate();
+
+    return retval;
+}
+
+
+Node *DEdge::neighbor_of(Node *x) {
+    if(x == a)
+        return b;
+    if(x == b)
+        return a;
+    cout << a->name << ", " << b->name << ", " << x->name << "\n";
+    return NULL;
+}
+ 
+
+void DEdge::set_cap_from(Node *x, int cap) {
+    assert(x == a || x == b);
+
+    if(x == a)
+        fcap = cap;
+    else
+        bcap = cap; 
+}
+
+int DEdge::get_cap_from(Node *x) {
+    assert(x == a || x == b);
+
+    if(x == a)
+        return fcap;
+    return bcap;
+}
+
+void DEdge::push_unit_to(Node *x) {
+    assert(x == a || x == b);
+
+    if(x == b) {
+        bcap++;
+        fcap--;
+    }
+    else {
+        fcap++;
+        bcap--;
+    }
+
+    assert(bcap <= 1 && bcap >= 0);
+    assert(fcap <= 1 && fcap >= 0);
+}
+
+DEdge::DEdge(Node *_a, Node *_b) {
+    a = _a; b = _b;
+    active = false;
+    fcap = bcap = 0;
+    aplace = bplace = -1;
+
+    (a->adj).push_back(this);
+    (b->adj).push_back(this);
+}
+
+void DEdge::print() {
+    cout << "(" << a->name << ", " << b->name << ") : ["
+         << fcap << ", " << bcap << "] ";
+}
+
+void TailPlacer::print_status() {
+    vector<Node*>::iterator it;
+    cout << "Reds are: ";
+    for(it = verts.begin(); it != verts.end(); it++) {
+        if((*it)->red) {
+            int name = (*it)->name, i, j;
+            i = name/size_m; j = name % size_m;
+            cout << "(" << i << ", " << j << "); ";
+        }
+    }
+}
+
+bool TailPlacer::try_point(int name) {
+    add_red(name);
+    bool doable = decide();
+
+    if(!doable)
+        remove_red(name);
+
+    return doable;
+}

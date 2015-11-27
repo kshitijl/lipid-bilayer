@@ -1,0 +1,27 @@
+\contentsline {section}{\tocsection {}{1}{Introduction}}{2}
+\contentsline {subsection}{\tocsubsection {}{}{Notation}}{3}
+\contentsline {section}{\tocsection {}{2}{The Densest $k$-subgraph Problem}}{3}
+\contentsline {section}{\tocsection {}{3}{Integer Linear Programs for DkS and matching}}{4}
+\contentsline {subsection}{\tocsubsection {}{3.1}{ILP for DkS}}{4}
+\contentsline {subsection}{\tocsubsection {}{3.2}{Bipartite Matching}}{5}
+\contentsline {section}{\tocsection {}{4}{The Bipole Packing Problem}}{6}
+\contentsline {subsection}{\tocsubsection {}{4.1}{Setup}}{6}
+\contentsline {subsection}{\tocsubsection {}{4.2}{DkS + matching = BPP}}{6}
+\contentsline {subsection}{\tocsubsection {}{4.3}{An integer linear program for BPP}}{8}
+\contentsline {subsection}{\tocsubsection {}{4.4}{BPP is NP-Complete}}{9}
+\contentsline {subsection}{\tocsubsection {}{4.5}{Shared-Heads Relaxation}}{11}
+\contentsline {subsection}{\tocsubsection {}{4.6}{An integer linear program for the Shared-heads relaxation}}{12}
+\contentsline {section}{\tocsection {}{5}{DkS on integer lattices}}{13}
+\contentsline {section}{\tocsection {}{6}{BPP on lattices and the Biplane Conjecture}}{14}
+\contentsline {subsection}{\tocsubsection {}{6.1}{Biplane Theorem on 2D square lattice}}{14}
+\contentsline {subsection}{\tocsubsection {}{6.2}{Biplane Conjecture}}{14}
+\contentsline {subsection}{\tocsubsection {}{6.3}{Contacts in a biplane configuration}}{16}
+\contentsline {subsection}{\tocsubsection {}{6.4}{The Biplane Approximation to the Shared-heads relaxation}}{18}
+\contentsline {section}{\tocsection {}{7}{A Tighter Upper Bound: Counting External Edges}}{18}
+\contentsline {section}{\tocsection {}{8}{Computational Results: Evidence for the Biplane Conjecture}}{19}
+\contentsline {subsection}{\tocsubsection {}{8.1}{Branch-and-Bound Algorithm for BPP}}{20}
+\contentsline {subsection}{\tocsubsection {}{8.2}{Results}}{22}
+\contentsline {section}{\tocsection {}{9}{Related Topics}}{23}
+\contentsline {subsection}{\tocsubsection {}{9.1}{Bipole Configuration Labeling Problem}}{23}
+\contentsline {subsection}{\tocsubsection {}{9.2}{Monte Carlo and Statistical Mechanics}}{24}
+\contentsline {section}{\tocsection {}{}{References}}{31}

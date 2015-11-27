@@ -1,0 +1,43 @@
+from math import *
+
+def foo(n):
+    k = max(2,ceil(pow(n, 1.0/3)))
+    p1 = math.floor(math.pow(n,2.0/3))
+    p2 = min(p1,math.ceil((n-p1)/(k-1)))
+    n = n-p1-p2
+    ans = [p1,p2]
+    while n > p2:
+        n = n - p2
+        ans.append(p2)
+    if n > 0:
+        ans.append(n)
+    return ans
+
+def eval(ans):
+    n = sum(ans)
+    s = 3*n
+    s -= ans[0]
+    for k in ans:
+        s = s - ceil(2*sqrt(k))
+    return int(s)
+
+#for i in range(4,25): print i, eval(foo(i))
+
+def ex(n):
+    return 3*n - ceil(3*pow(n,2.0/3))
+
+#for i in range(4,25): print i, ex(i)
+
+
+
+def calc(n,k):
+    return int(3*n - k - floor(n/k)*ceil(2*sqrt(k)) - ceil(2*sqrt(n%k)))
+
+def findk(n):
+    s = int(floor(pow(n,1.0/3)))
+    if n < s*(s+1)*(s+1):
+        return s*(s+1)
+    else: return (s+1)*(s+1)
+
+for i in range(1,7913):
+    print i, calc(i,findk(i))
